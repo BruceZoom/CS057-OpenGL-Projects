@@ -69,6 +69,67 @@ void ZXCDrawSphere(float Radius, int Slices, int Stacks)
 	}
 }
 
+//	DrawTriangle:
+//		Draw a simple triangle
+void DrawTriangle()
+{
+	glPolygonMode(GL_FRONT, GL_LINE);
+	glPolygonMode(GL_BACK, GL_POINT);
+	glColor3f(1, 1, 0);
+
+	glBegin(GL_TRIANGLES);
+	{
+		glVertex3f(0, 1, 0);
+		glVertex3f(0, 0, 0);
+		glVertex3f(1, 0, 0);
+	}
+	glEnd();
+}
+
+//	DrawSphereLine
+//		Draw a sphere using lines instead of triangles
+//	Param:
+//		Radius: radius of the sphere
+//		Slices: how many slices the circle is divided into
+//		Stacks: how many stacks the sphere is divided into vertically
+void DrawSphereLine(float Radius, float Slices, float Stacks)
+{
+	glPolygonMode(GL_FRONT, GL_LINE);
+	glPolygonMode(GL_BACK, GL_POINT);
+	glColor3f(1, 1, 0);
+
+	float dy = 2 * Radius / Stacks;
+	float omega = 2 * PI / Slices;
+
+	int i, j, k;
+	float y1, y2, r1, r2;
+	float tmpc, tmps;
+
+	glBegin(GL_LINE_LOOP);
+	for (i = 1; i < Stacks + 1; i++)
+	{
+		y1 = (i - 1) * dy - Radius;
+		y2 = i * dy - Radius;
+		r1 = sqrt(Radius * Radius - y1 * y1);
+		r2 = sqrt(Radius * Radius - y2 * y2);
+		for (j = 0; j < Slices; j++)
+		{
+			tmpc = cos(j * omega);
+			tmps = sin(j * omega);
+			glVertex3f(
+				r1 * tmpc,
+				y1,
+				r1 * tmps
+			);
+			glVertex3f(
+				r2 * tmpc,
+				y2,
+				r2 * tmps
+			);
+		}
+	}
+	glEnd();
+}
 
 //	DrawSpringEnd:
 //		Close two ends of the spring.
@@ -78,11 +139,11 @@ void ZXCDrawSphere(float Radius, int Slices, int Stacks)
 //		rRation: radius / Radius
 //		Slices: how many slices the circle is divided into
 //		flip: which end of the spring
-void DrawSpringEnd(float* memo, float radius, float rRatio, int Slices, bool flip = false)
+void DrawSpringEnd(float* memo, float radius, float rRatio, float yRatio, int Slices, bool flip = false)
 {
 	float dAngle = 2 * PI / Slices;
 	int i, j;
-	int sign = (flip ? -1 : 1);
+	int sign = (flip ? -1 : 1) * yRatio;
 
 	glBegin(GL_TRIANGLE_STRIP);
 	for (i = 0, j = Slices - 1; i < Slices / 2; i++, j--)
@@ -120,7 +181,11 @@ void DrawSpring(float Radius, float Height, float Turns, float radius, int Slice
 	float dy = Height / Stacks;
 	float omega = 2 * Turns * PI / Height;
 	float dAngle = 2 * PI / Slices;
-	
+
+	// multiple the y ratio to the y-axis shift to simulate ellipse
+	float sinphi = sin(1.0 / Radius / omega);
+	float yRatio = 1 / (1 - sinphi * sinphi);
+
 	int i, j, k;
 	float theta;
 	float x0, y0, z0;
@@ -134,7 +199,7 @@ void DrawSpring(float Radius, float Height, float Turns, float radius, int Slice
 	};
 
 	// draw the lower end
-	DrawSpringEnd(memo, radius, rRatio, Slices);
+	DrawSpringEnd(memo, radius, rRatio, yRatio, Slices);
 
 	// draw the body of the spring from bottom to top
 	glBegin(GL_TRIANGLE_STRIP);
@@ -153,13 +218,13 @@ void DrawSpring(float Radius, float Height, float Turns, float radius, int Slice
 			glVertex3f(
 				x0 + rRatio * tmpc * x0,	// much faster than the following
 				// x0 + radius * cos(j * dAngle) * cos(last_theta)
-				y0 + radius * tmps,
+				y0 + radius * tmps * yRatio,
 				z0 + rRatio * tmpc * z0		// much faster than the following
-				// z0 + radius * sin(j * dAngle) * sin(last_theta)
+				// z0 + radius * cos(j * dAngle) * sin(last_theta)
 			);
 			glVertex3f(
 				memo[0] + rRatio * tmpc * memo[0],
-				memo[1] + radius * tmps,
+				memo[1] + radius * tmps * yRatio,
 				memo[2] + rRatio * tmpc * memo[2]
 			);
 		}
@@ -170,7 +235,7 @@ void DrawSpring(float Radius, float Height, float Turns, float radius, int Slice
 	glEnd();
 
 	// draw the upper end
-	DrawSpringEnd(memo, radius, rRatio, Slices, true);
+	DrawSpringEnd(memo, radius, rRatio, yRatio, Slices, true);
 }
 
 void Reshape(GLint w, GLint h)
@@ -189,6 +254,12 @@ void Display()
 	
 	// draw the sphere, from the course material
 	// ZXCDrawSphere(0.4, 30, 50);
+
+	// draw trianlge
+	//DrawTriangle();
+
+	// draw the sphere using lines
+	//DrawSphereLine(0.4, 30, 50);
 
 	// draw the spring
 	DrawSpring(0.3, 1, 3, 0.05, 20, 100);
