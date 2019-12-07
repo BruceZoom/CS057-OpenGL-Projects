@@ -8,15 +8,15 @@
 #define PI 3.1415
 
 BMPPic * ppic;
-GLuint textPic[1];
 Galaxy * galaxy;
 
 void init()
 {
 	// set up galaxy
-	string textures[] = { "Textures/earth.bmp" };
-	galaxy = new Galaxy(1, textures);
-	galaxy->SetStar(0, 1, 0, 0, 0.5);
+	//string textures[] = { "Textures/earth.bmp" };
+	//galaxy = new Galaxy(1, textures);
+	//galaxy->SetStar(0, 1, 0, 0, 0.5);
+	galaxy = new Galaxy(3, "");
 
 	glTexEnvf(GL_TEXTURE_2D, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	glEnable(GL_TEXTURE_2D);
@@ -33,12 +33,14 @@ void Render() {
 
 	glLoadIdentity();
 	glPushMatrix();
-	glRotatef(degree, 0, 1, 0);
+	//glRotatef(degree, 0, 1, 0);
 	degree += 0.05;
 	glTranslatef(0, 0, -10);
 
 	galaxy->DrawGalaxy();
 	galaxy->UpdateStar(0);
+	galaxy->UpdateStar(1);
+	galaxy->UpdateStar(2);
 
 	glPopMatrix();
 	glutSwapBuffers();
@@ -62,7 +64,7 @@ void Reshape(int w, int h)
 void main()
 {
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-	glutInitWindowSize(800, 600);
+	glutInitWindowSize(1280, 720);
 	glutCreateWindow("Star Racer");
 	init();
 	glutReshapeFunc(Reshape);
