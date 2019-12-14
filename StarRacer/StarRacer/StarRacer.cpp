@@ -1,14 +1,17 @@
 ﻿#include "pch.h"
 #include "glut.h"
-#include "BMPLoad.h"
 #include <iostream>
+
+#include "BMPLoad.h"
 #include "Utils.h"
 #include "Galaxy.h"
+#include"PlayerController.h"
 
 #define PI 3.1415
 
 BMPPic * ppic;
 Galaxy * galaxy;
+PlayerController * controller;
 
 void init()
 {
@@ -17,6 +20,8 @@ void init()
 	//galaxy = new Galaxy(1, textures);
 	//galaxy->SetStar(0, 1, 0, 0, 0.5);
 	galaxy = new Galaxy(3, "");
+
+	controller = new PlayerController();
 
 	glTexEnvf(GL_TEXTURE_2D, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	glEnable(GL_TEXTURE_2D);
@@ -38,9 +43,6 @@ void Render() {
 	glTranslatef(0, 0, -10);
 
 	galaxy->DrawGalaxy();
-	galaxy->UpdateStar(0);
-	galaxy->UpdateStar(1);
-	galaxy->UpdateStar(2);
 
 	glPopMatrix();
 	glutSwapBuffers();
@@ -61,16 +63,51 @@ void Reshape(int w, int h)
 	glLoadIdentity();
 }
 
-void main()
+void TimerFunction(int value)
+{
+	glutPostRedisplay();
+
+	galaxy->UpdateStar(0);
+	galaxy->UpdateStar(1);
+	galaxy->UpdateStar(2);
+
+	//cout << controller->Rotation.x << " " << controller->Rotation.y << " " << controller->Rotation.z << endl;
+	//cout << controller->Forward << " " << controller->Horizontal << " " << controller->Brake << endl;
+	controller->Reset();
+	
+	glutTimerFunc(5, TimerFunction, 1);
+}
+
+void KeyProcess(unsigned char key, int x, int y)
+{
+	controller->HandleInput(key, x, y);
+}
+
+void SpecialKey(int key, int xx, int yy)
+{
+	controller->HandleInput(key, xx, yy);
+}
+
+int main()
 {
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowSize(1280, 720);
 	glutCreateWindow("Star Racer");
 	init();
+
+	// control handler
+	glutKeyboardFunc(KeyProcess);
+	glutSpecialFunc(SpecialKey);
+
+	// display handler
 	glutReshapeFunc(Reshape);
 	glutDisplayFunc(Render);
 	glutIdleFunc(Render);
+
+	glutTimerFunc(5, TimerFunction, 1);
 	glutMainLoop();
 
 	delete galaxy;
+
+	return 0;
 }
