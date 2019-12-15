@@ -5,13 +5,15 @@
 #include "BMPLoad.h"
 #include "Utils.h"
 #include "Galaxy.h"
-#include"PlayerController.h"
+#include "PlayerController.h"
+#include "SpaceShip.h"
 
 #define PI 3.1415
 
 BMPPic * ppic;
 Galaxy * galaxy;
 PlayerController * controller;
+SpaceShip * ship;
 
 void init()
 {
@@ -22,6 +24,8 @@ void init()
 	galaxy = new Galaxy(3, "");
 
 	controller = new PlayerController();
+
+	ship = new SpaceShip({ 0, 0, -10 });
 
 	glTexEnvf(GL_TEXTURE_2D, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	glEnable(GL_TEXTURE_2D);
@@ -39,8 +43,9 @@ void Render() {
 	glLoadIdentity();
 	glPushMatrix();
 	//glRotatef(degree, 0, 1, 0);
-	degree += 0.05;
-	glTranslatef(0, 0, -10);
+	//degree += 0.05;
+	//glTranslatef(0, 0, -10);
+	ship->DrawSpaceShip();
 
 	galaxy->DrawGalaxy();
 
@@ -67,9 +72,11 @@ void TimerFunction(int value)
 {
 	glutPostRedisplay();
 
-	galaxy->UpdateStar(0);
-	galaxy->UpdateStar(1);
-	galaxy->UpdateStar(2);
+	//galaxy->UpdateStar(0);
+	//galaxy->UpdateStar(1);
+	//galaxy->UpdateStar(2);
+
+	ship->UpdateSpaceShip(*controller);
 
 	controller->Reset();
 	
@@ -79,15 +86,15 @@ void TimerFunction(int value)
 void KeyProcess(unsigned char key, int x, int y)
 {
 	controller->HandleInput(key, x, y);
-	cout << controller->Rotation.x << " " << controller->Rotation.y << " " << controller->Rotation.z << endl;
-	cout << controller->Forward << " " << controller->Horizontal << " " << controller->Brake << endl;
+	//cout << controller->Rotation.x << " " << controller->Rotation.y << " " << controller->Rotation.z << endl;
+	//cout << controller->Forward << " " << controller->Horizontal << " " << controller->Brake << endl;
 }
 
 void SpecialKey(int key, int xx, int yy)
 {
 	controller->HandleInput(key, xx, yy);
-	cout << controller->Rotation.x << " " << controller->Rotation.y << " " << controller->Rotation.z << endl;
-	cout << controller->Forward << " " << controller->Horizontal << " " << controller->Brake << endl;
+	//cout << controller->Rotation.x << " " << controller->Rotation.y << " " << controller->Rotation.z << endl;
+	//cout << controller->Forward << " " << controller->Horizontal << " " << controller->Brake << endl;
 }
 
 int main()

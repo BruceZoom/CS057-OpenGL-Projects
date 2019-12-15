@@ -18,16 +18,22 @@ void PlayerController::HandleInput(int key, int xx, int yy)
 	switch (key)
 	{
 	case GLUT_KEY_LEFT:
-		Forward = TernaryState::TNegtive;
-		break;
-	case GLUT_KEY_RIGHT:
-		Forward = TernaryState::TPositive;
-		break;
-	case GLUT_KEY_UP:
 		Horizontal = TernaryState::TNegtive;
 		break;
-	case GLUT_KEY_DOWN:
+	case GLUT_KEY_RIGHT:
 		Horizontal = TernaryState::TPositive;
+		break;
+	case GLUT_KEY_DOWN:
+		Forward = TernaryState::TNegtive;
+		break;
+	case GLUT_KEY_UP:
+		Forward = TernaryState::TPositive;
+		break;
+	case GLUT_KEY_PAGE_DOWN:
+		Vertical = TernaryState::TNegtive;
+		break;
+	case GLUT_KEY_PAGE_UP:
+		Vertical = TernaryState::TPositive;
 		break;
 	default:
 		break;
@@ -47,10 +53,10 @@ void PlayerController::HandleInput(unsigned char key, int xx, int yy)
 	case 'd':
 		Rotation.y = TernaryState::TPositive;
 		break;
-	case 's':
+	case 'w':
 		Rotation.x = TernaryState::TNegtive;
 		break;
-	case 'w':
+	case 's':
 		Rotation.x = TernaryState::TPositive;
 		break;
 	case 'q':
@@ -74,5 +80,6 @@ void PlayerController::Reset()
 		   TernaryState::TNutrual };
 	Forward = TernaryState::TNutrual;
 	Horizontal = TernaryState::TNutrual;
+	Vertical = TernaryState::TNutrual;
 	Brake = BinaryState::BNegative;
 }

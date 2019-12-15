@@ -155,6 +155,7 @@
     <ClInclude Include="Galaxy.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PlayerController.h" />
+    <ClInclude Include="SpaceShip.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>
   <ItemGroup>
@@ -168,6 +169,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="PlayerController.cpp" />
+    <ClCompile Include="SpaceShip.cpp" />
     <ClCompile Include="StarRacer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

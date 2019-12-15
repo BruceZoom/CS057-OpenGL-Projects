@@ -13,6 +13,7 @@ public:
 	Vector3 Rotation;
 	TernaryState Forward;
 	TernaryState Horizontal;
+	TernaryState Vertical;
 	BinaryState Brake;
 	PlayerController();
 	~PlayerController();

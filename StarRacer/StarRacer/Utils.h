@@ -9,10 +9,13 @@
 using namespace std;
 #pragma region DataStruct
 
-typedef struct {
+typedef struct _V3{
 	float x = 0;
 	float y = 0;
 	float z = 0;
+	float DotProduct(struct _V3 v) {
+		return x * v.x + y * v.y + z * v.z;
+	}
 } Vector3;
 
 const Vector3 zero = { 0, 0, 0 };
@@ -44,3 +47,11 @@ typedef struct {
 void DrawSphere(float X, float Y, float Z, float Radius, int Slices = 30, int Stacks = 50);
 
 #pragma endregion
+
+
+#pragma region Utils
+
+#define RoundZero(x, th) (x = (abs(x) < th ? 0 : x))
+
+#pragma endregion
+
