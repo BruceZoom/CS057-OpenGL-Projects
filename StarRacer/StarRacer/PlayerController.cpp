@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "glut.h"
-//#include <stdlib.h>
+#include <stdlib.h>
 #include "PlayerController.h"
 
 
@@ -39,7 +39,7 @@ void PlayerController::HandleInput(unsigned char key, int xx, int yy)
 	switch (key)
 	{
 	case 27:
-		//exit(0);
+		exit(0);
 		break;
 	case 'a':
 		Rotation.y = TernaryState::TNegtive;

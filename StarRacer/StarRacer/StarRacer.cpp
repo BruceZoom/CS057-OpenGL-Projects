@@ -71,8 +71,6 @@ void TimerFunction(int value)
 	galaxy->UpdateStar(1);
 	galaxy->UpdateStar(2);
 
-	//cout << controller->Rotation.x << " " << controller->Rotation.y << " " << controller->Rotation.z << endl;
-	//cout << controller->Forward << " " << controller->Horizontal << " " << controller->Brake << endl;
 	controller->Reset();
 	
 	glutTimerFunc(5, TimerFunction, 1);
@@ -81,11 +79,15 @@ void TimerFunction(int value)
 void KeyProcess(unsigned char key, int x, int y)
 {
 	controller->HandleInput(key, x, y);
+	cout << controller->Rotation.x << " " << controller->Rotation.y << " " << controller->Rotation.z << endl;
+	cout << controller->Forward << " " << controller->Horizontal << " " << controller->Brake << endl;
 }
 
 void SpecialKey(int key, int xx, int yy)
 {
 	controller->HandleInput(key, xx, yy);
+	cout << controller->Rotation.x << " " << controller->Rotation.y << " " << controller->Rotation.z << endl;
+	cout << controller->Forward << " " << controller->Horizontal << " " << controller->Brake << endl;
 }
 
 int main()
