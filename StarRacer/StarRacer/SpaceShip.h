@@ -8,7 +8,9 @@ using namespace std;
 class SpaceShip
 {
 	Vector3 position;
-	Vector3 rotation;
+	Vector3 forward;
+	Vector3 up;
+	Vector3 right;
 	Vector3 translationSpeed;
 	Vector3 rotationSpeed;
 	Vector3 translationAcc;

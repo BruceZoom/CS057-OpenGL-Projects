@@ -16,6 +16,27 @@ typedef struct _V3{
 	float DotProduct(struct _V3 v) {
 		return x * v.x + y * v.y + z * v.z;
 	}
+	struct _V3 DotProduct(struct _V3 col1, struct _V3 col2, struct _V3 col3) {
+		return { DotProduct(col1),  DotProduct(col2),  DotProduct(col3) };
+	}
+	struct _V3 DotProduct(struct _V3 col[3]) {
+		return { DotProduct(col[0]),  DotProduct(col[1]),  DotProduct(col[2]) };
+	}
+	struct _V3 EltWiseMul(struct _V3 v) {
+		return { x * v.x, y * v.y, z * v.z };
+	}
+	struct _V3 EltWiseAdd(struct _V3 v) {
+		return { x + v.x, y + v.y, z + v.z };
+	}
+	struct _V3 SclMul(float alpha) {
+		return { x * alpha, y * alpha, z * alpha };
+	}
+	float Norm() {
+		return sqrt(x * x + y * y + z * z);
+	}
+	struct _V3 Normalize() {
+		return SclMul(1 / Norm());
+	}
 } Vector3;
 
 const Vector3 zero = { 0, 0, 0 };
