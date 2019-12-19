@@ -37,6 +37,9 @@ typedef struct _V3{
 	struct _V3 Normalize() {
 		return SclMul(1 / Norm());
 	}
+	void Print() {
+		cout << x << " " << y << " " << z << endl;
+	}
 } Vector3;
 
 const Vector3 zero = { 0, 0, 0 };
