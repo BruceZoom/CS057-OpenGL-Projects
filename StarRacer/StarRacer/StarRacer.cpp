@@ -17,17 +17,45 @@ SpaceShip * ship;
 
 void init()
 {
+	GLfloat fAmbLight[] = { 0.0f, 0.1f, 0.9f, 0.0f };
+	GLfloat fDiffLight[] = { 1.0f, 1.0f, 1.0f, 0.0f };
+	GLfloat fSpecLight[] = { 0.5f, 0.5f, 0.5f, 0.0f };
+	GLfloat lightPos[] = { -100.0f, 100.0f, 100.0f, 1.0f };
+	GLfloat fScale = 0.01f;
+	
+	glClearColor(0.0f, 0.0f, .50f, 1.0f);
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
+
+	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+
+	// Set up lighting
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	glEnable(GL_COLOR_MATERIAL);
+	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+	glMaterialfv(GL_FRONT, GL_SPECULAR, fDiffLight);
+	glMateriali(GL_FRONT, GL_SHININESS, 128);
+
+	glLightfv(GL_LIGHT0, GL_AMBIENT, fAmbLight);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, fDiffLight);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, fSpecLight);
+	glLightModeli(0x81F8, 0x81FA);
+
+	// Light never changes, put it here
+	glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
+
+	glEnable(0x803A);
+
 	// set up galaxy
-	//string textures[] = { "Textures/earth.bmp" };
-	//galaxy = new Galaxy(1, textures);
-	//galaxy->SetStar(0, 1, 0, 0, 0.5);
 	galaxy = new Galaxy(3, "");
 
+	// set up controller
 	controller = new PlayerController();
 
+	// set up space ship
 	ship = new SpaceShip({ 0, 0, -10 });
 
-	glTexEnvf(GL_TEXTURE_2D, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	glEnable(GL_TEXTURE_2D);
 	glShadeModel(GL_SMOOTH);
 	glFrontFace(GL_CCW);
@@ -62,7 +90,7 @@ void Reshape(int w, int h)
 	fAspect = (GLfloat)w / (GLfloat)h;
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(60.0f, fAspect, 1.0f, 1000.0f);
+	gluPerspective(60.0f, fAspect, 0.01f, 1000.0f);
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
@@ -72,9 +100,9 @@ void TimerFunction(int value)
 {
 	glutPostRedisplay();
 
-	//galaxy->UpdateStar(0);
-	//galaxy->UpdateStar(1);
-	//galaxy->UpdateStar(2);
+	galaxy->UpdateStar(0);
+	galaxy->UpdateStar(1);
+	galaxy->UpdateStar(2);
 
 	ship->UpdateSpaceShip(*controller);
 

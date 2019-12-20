@@ -1,6 +1,45 @@
 #include "pch.h"
 #include "Utils.h"
 #include "glut.h"
+#include "SpaceShip.h"
+
+void SpaceShip::DrawBody()
+{
+	int iFace, iPoint;
+	glBegin(GL_TRIANGLES);
+	for (iFace = 0; iFace < 3704; iFace++)  // Each new triangle starts here
+		for (iPoint = 0; iPoint < 3; iPoint++) // Each vertex specified here
+		{
+			// Lookup the texture value
+			glTexCoord2fv(texturesBody[face_indiciesBody[iFace][iPoint + 6]]);
+
+			// Lookup the normal value
+			glNormal3fv(normalsBody[face_indiciesBody[iFace][iPoint + 3]]);
+
+			// Lookup the vertex value
+			glVertex3fv(verticesBody[face_indiciesBody[iFace][iPoint]]);
+		}
+	glEnd();
+}
+
+void SpaceShip::DrawGlass()
+{
+	int iFace, iPoint;
+	glBegin(GL_TRIANGLES);
+	for (iFace = 0; iFace < 352; iFace++)  // Each new triangle starts here
+		for (iPoint = 0; iPoint < 3; iPoint++) // Each vertex specified here
+		{
+			// Lookup the texture value
+			glTexCoord2fv(texturesGlass[face_indiciesGlass[iFace][iPoint + 6]]);
+
+			// Lookup the normal value
+			glNormal3fv(normalsGlass[face_indiciesGlass[iFace][iPoint + 3]]);
+
+			// Lookup the vertex value
+			glVertex3fv(verticesGlass[face_indiciesGlass[iFace][iPoint]]);
+		}
+	glEnd();
+}
 
 void DrawSphere(float X, float Y, float Z, float Radius, int Slices, int Stacks)
 {
