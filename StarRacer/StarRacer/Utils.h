@@ -75,7 +75,12 @@ void DrawSphere(float X, float Y, float Z, float Radius, int Slices = 30, int St
 
 #pragma region Utils
 
-#define RoundZero(x, th) (x = (abs(x) < th ? 0 : x))
+#define RoundZero(x, th) (abs(x) < (th) ? 0 : (x))
+#define SetZero(x, v0, v1) ((x == 0) ? (v0) : (v1))
+#define Min(x, y) ((x) < (y) ? (x) : (y))
+#define Max(x, y) ((x) > (y) ? (x) : (y))
+#define Clip(x, lo, hi) (Max((lo), Min((x), (hi))))
+#define Sign(x) ((x) > 0 ? 1 : ((x) < 0 ? -1 : 0))
 
 #pragma endregion
 

@@ -58,6 +58,7 @@ SpaceShip::SpaceShip(Vector3 initPosition, float th):RoundThreshold(th)
 	rotationSpeed = zero;
 	translationAcc = { 0.003, 0.003, 0.005 };
 	rotationAcc = { 0.003, 0.003, 0.003 };
+	pose = zero;
 }
 
 SpaceShip::~SpaceShip()
@@ -66,12 +67,6 @@ SpaceShip::~SpaceShip()
 
 void SpaceShip::DrawSpaceShip()
 {
-
-	Vector3 model_pos = {
-		position.x + forward.x / 2,
-		position.y + forward.y / 2 - 0.1,
-		position.z + forward.z / 2
-	};
 	//glTranslatef(model_pos.x, model_pos.y, model_pos.z);
 	//gluLookAt(model_pos.x, model_pos.y, model_pos.z,
 	//	model_pos.x + forward.x, model_pos.y + forward.y, model_pos.z + forward.z,
@@ -80,6 +75,9 @@ void SpaceShip::DrawSpaceShip()
 	{
 		glTranslatef(0, -0.1, -0.4);
 		glRotatef(180, 0, 1, 0);
+		glRotatef(pose.z, 0, 0, 1);
+		glRotatef(-pose.y, 0, 1, 0);
+		glRotatef(pose.x, 1, 0, 0);
 		//glRotatef(-asin(forward.y) * 180 / PI, 1, 0, 0);
 		//glRotatef(asin(forward.x / sqrt(forward.x * forward.x + forward.z * forward.z)) * 180 / PI, 0, 1, 0);
 		glPushMatrix();
@@ -120,6 +118,14 @@ void SpaceShip::UpdateSpaceShip(const PlayerController & controller)
 	rotationSpeed.y -= (controller.Rotation.y - 1) * rotationAcc.y;
 	rotationSpeed.z -= (controller.Rotation.z - 1) * rotationAcc.z;
 
+	// update pose
+	pose.x += SetZero(controller.Rotation.x - 1, -Sign(pose.x) / 4.0, controller.Rotation.x - 1);
+	pose.y += SetZero(controller.Rotation.y - 1, -Sign(pose.y) / 4.0, controller.Rotation.y - 1);
+	pose.z += SetZero(controller.Rotation.z - 1, -Sign(pose.z) / 4.0, controller.Rotation.z - 1);
+	pose.x = RoundZero(Clip(pose.x, -pose_limit.x, pose_limit.x), 0.3);
+	pose.y = RoundZero(Clip(pose.y, -pose_limit.y, pose_limit.y), 0.3);
+	pose.z = RoundZero(Clip(pose.z, -pose_limit.z, pose_limit.z), 0.3);
+
 	// update translate speed
 	translationSpeed = translationSpeed.EltWiseAdd(
 		forward.SclMul((controller.Forward - 1) * translationAcc.z)
@@ -140,9 +146,9 @@ void SpaceShip::UpdateSpaceShip(const PlayerController & controller)
 	}
 
 	// small value round to zero
-	RoundZero(rotationSpeed.x, RoundThreshold);
-	RoundZero(rotationSpeed.y, RoundThreshold);
-	RoundZero(rotationSpeed.z, RoundThreshold);
+	rotationSpeed.x = RoundZero(rotationSpeed.x, RoundThreshold);
+	rotationSpeed.y = RoundZero(rotationSpeed.y, RoundThreshold);
+	rotationSpeed.z = RoundZero(rotationSpeed.z, RoundThreshold);
 	if (translationSpeed.Norm() < RoundThreshold) {
 		translationSpeed = zero;
 	}

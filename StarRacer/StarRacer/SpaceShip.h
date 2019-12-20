@@ -31,7 +31,9 @@ class SpaceShip
 	Vector3 rotationSpeed;
 	Vector3 translationAcc;
 	Vector3 rotationAcc;
+	Vector3 pose;
 	const float RoundThreshold;
+	const Vector3 pose_limit = { 10, 10, 10 };
 	GLuint textures[2];
 	GLuint bodyList;
 	GLuint glassList;
