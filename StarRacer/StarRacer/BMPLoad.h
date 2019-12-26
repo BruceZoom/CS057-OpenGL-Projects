@@ -1,4 +1,6 @@
 #pragma once
+//!!!!!!!#pragma pack(1) tells compiler to align with 1 byte
+#pragma pack(1)
 
 #include <cstring>
 #include <string> 

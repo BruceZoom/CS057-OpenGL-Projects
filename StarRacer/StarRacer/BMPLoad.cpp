@@ -126,7 +126,7 @@ GLbyte *gltLoadTGA(const char *szFileName, GLint *iWidth, GLint *iHeight, GLint 
 	unsigned long lImageSize;		// Size in bytes of image
 	short sDepth;			// Pixel depth;
 	GLbyte	*pBits = NULL;          // Pointer to bits
-
+	// printf("%s\n", szFileName);
 	// Default/Failed values
 	*iWidth = 0;
 	*iHeight = 0;

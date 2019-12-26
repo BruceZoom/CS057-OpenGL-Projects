@@ -15,7 +15,7 @@ SpaceShip::SpaceShip(Vector3 initPosition, float th):RoundThreshold(th)
 
 	// Load the body texture
 	glBindTexture(GL_TEXTURE_2D, textures[BODY_TEXTURE]);
-	pBytes = gltLoadTGA("textures/body.tga", &iWidth, &iHeight, &iComponents, &eFormat);
+	pBytes = gltLoadTGA("Textures/body.tga", &iWidth, &iHeight, &iComponents, &eFormat);
 	glTexImage2D(GL_TEXTURE_2D, 0, iComponents, iWidth, iHeight, 0, eFormat, GL_UNSIGNED_BYTE, (void *)pBytes);
 	free(pBytes);
 	GLfloat fLargest;
@@ -29,8 +29,9 @@ SpaceShip::SpaceShip(Vector3 initPosition, float th):RoundThreshold(th)
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 
 	glBindTexture(GL_TEXTURE_2D, textures[GLASS_TEXTURE]);
-	pBytes = gltLoadTGA("textures/glass.tga", &iWidth, &iHeight, &iComponents, &eFormat);
+	pBytes = gltLoadTGA("Textures/glass.tga", &iWidth, &iHeight, &iComponents, &eFormat);
 	glTexImage2D(GL_TEXTURE_2D, 0, iComponents, iWidth, iHeight, 0, eFormat, GL_UNSIGNED_BYTE, (void *)pBytes);
+	
 	free(pBytes);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
