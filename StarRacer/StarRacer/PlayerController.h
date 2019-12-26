@@ -19,6 +19,8 @@ public:
 	~PlayerController();
 	void HandleInput(int key, int xx, int yy);
 	void HandleInput(unsigned char key, int xx, int yy);
+	void ResetInput(int key, int xx, int yy);
+	void ResetInput(unsigned char key, int xx, int yy);
 	void Reset();
 };
 

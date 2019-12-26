@@ -106,23 +106,29 @@ void TimerFunction(int value)
 
 	ship->UpdateSpaceShip(*controller);
 
-	controller->Reset();
+	//controller->Reset();
 	
 	glutTimerFunc(5, TimerFunction, 1);
 }
 
-void KeyProcess(unsigned char key, int x, int y)
+void KeyBoard(unsigned char key, int x, int y)
 {
 	controller->HandleInput(key, x, y);
-	//cout << controller->Rotation.x << " " << controller->Rotation.y << " " << controller->Rotation.z << endl;
-	//cout << controller->Forward << " " << controller->Horizontal << " " << controller->Brake << endl;
 }
 
 void SpecialKey(int key, int xx, int yy)
 {
 	controller->HandleInput(key, xx, yy);
-	//cout << controller->Rotation.x << " " << controller->Rotation.y << " " << controller->Rotation.z << endl;
-	//cout << controller->Forward << " " << controller->Horizontal << " " << controller->Brake << endl;
+}
+
+void KeyBoardUp(unsigned char key, int x, int y)
+{
+	controller->ResetInput(key, x, y);
+}
+
+void SpecialKeyUp(int key, int xx, int yy)
+{
+	controller->ResetInput(key, xx, yy);
 }
 
 int main()
@@ -133,8 +139,10 @@ int main()
 	init();
 
 	// control handler
-	glutKeyboardFunc(KeyProcess);
+	glutKeyboardFunc(KeyBoard);
 	glutSpecialFunc(SpecialKey);
+	glutKeyboardUpFunc(KeyBoardUp);
+	glutSpecialUpFunc(SpecialKeyUp);
 
 	// display handler
 	glutReshapeFunc(Reshape);
