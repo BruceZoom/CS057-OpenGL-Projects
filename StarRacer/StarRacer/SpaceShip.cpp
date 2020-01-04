@@ -57,8 +57,8 @@ SpaceShip::SpaceShip(Vector3 initPosition, float th):RoundThreshold(th)
 	right = unitX;
 	translationSpeed = zero;
 	rotationSpeed = zero;
-	translationAcc = { 0.003, 0.003, 0.005 };
-	rotationAcc = { 0.003, 0.003, 0.003 };
+	translationAcc = { 0.0002, 0.0002, 0.0005 };
+	rotationAcc = { 0.0003, 0.0003, 0.0003 };
 	pose = zero;
 }
 

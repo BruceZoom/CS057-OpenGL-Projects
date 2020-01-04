@@ -7,6 +7,7 @@
 #include "Galaxy.h"
 #include "PlayerController.h"
 #include "SpaceShip.h"
+#include "zxcSkyBox.h"
 
 #define PI 3.1415
 
@@ -14,6 +15,7 @@ BMPPic * ppic;
 Galaxy * galaxy;
 PlayerController * controller;
 SpaceShip * ship;
+CzxcSkyBox * skybox;
 
 void init()
 {
@@ -37,10 +39,10 @@ void init()
 	glMaterialfv(GL_FRONT, GL_SPECULAR, fDiffLight);
 	glMateriali(GL_FRONT, GL_SHININESS, 128);
 
-	glLightfv(GL_LIGHT0, GL_AMBIENT, fAmbLight);
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, fDiffLight);
-	glLightfv(GL_LIGHT0, GL_SPECULAR, fSpecLight);
-	glLightModeli(0x81F8, 0x81FA);
+	//glLightfv(GL_LIGHT0, GL_AMBIENT, fAmbLight);
+	//glLightfv(GL_LIGHT0, GL_DIFFUSE, fDiffLight);
+	//glLightfv(GL_LIGHT0, GL_SPECULAR, fSpecLight);
+	//glLightModeli(0x81F8, 0x81FA);
 
 	// Light never changes, put it here
 	glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
@@ -55,6 +57,15 @@ void init()
 
 	// set up space ship
 	ship = new SpaceShip({ 0, 0, -10 });
+
+	// set up sky box
+	skybox = new CzxcSkyBox(50000,
+		"Textures/ame_nebula/purplenebula_lf.tga",
+		"Textures/ame_nebula/purplenebula_rt.tga",
+		"Textures/ame_nebula/purplenebula_ft.tga",
+		"Textures/ame_nebula/purplenebula_bk.tga",
+		"Textures/ame_nebula/purplenebula_up.tga",
+		"Textures/ame_nebula/purplenebula_dn.tga");
 
 	glEnable(GL_TEXTURE_2D);
 	glShadeModel(GL_SMOOTH);
@@ -77,6 +88,8 @@ void Render() {
 
 	galaxy->DrawGalaxy();
 
+	skybox->ShowSky();
+
 	glPopMatrix();
 	glutSwapBuffers();
 }
@@ -90,7 +103,7 @@ void Reshape(int w, int h)
 	fAspect = (GLfloat)w / (GLfloat)h;
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(60.0f, fAspect, 0.01f, 1000.0f);
+	gluPerspective(60.0f, fAspect, 0.01f, 50000.0f);
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
@@ -153,6 +166,8 @@ int main()
 	glutMainLoop();
 
 	delete galaxy;
+	delete controller;
+	delete ship;
 
 	return 0;
 }
