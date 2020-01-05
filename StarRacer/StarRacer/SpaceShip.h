@@ -3,6 +3,7 @@
 #include "glut.h"
 #include "Utils.h"
 #include "PlayerController.h"
+#include "3ds.h"
 
 #define BODY_TEXTURE    0
 #define GLASS_TEXTURE   1
@@ -32,7 +33,6 @@ class SpaceShip
 	Vector3 translationAcc;
 	Vector3 rotationAcc;
 	Vector3 pose;
-	const float RoundThreshold;
 	const Vector3 pose_limit = { 10, 10, 10 };
 	GLuint textures[2];
 	GLuint bodyList;
@@ -40,7 +40,7 @@ class SpaceShip
 	void DrawBody();
 	void DrawGlass();
 public:
-	SpaceShip(Vector3 initPosition, float th=0.0005);
+	SpaceShip(Vector3 initPosition);
 	~SpaceShip();
 	void DrawSpaceShip();
 	void UpdateSpaceShip(const PlayerController &controller);

@@ -1,16 +1,71 @@
 #include "pch.h"
 #include <cmath>
 #include "glut.h"
-#include "SpaceShip.h"
+#include "glaux.h"
 #include "BMPLoad.h"
+#include "SpaceShip.h"
+#include <string>
 
+//  从文件中创建纹理
+void CreateTexture(UINT textureArray[], LPSTR strFileName, int textureID)
+{
+	BMPPic * ppic;
 
-SpaceShip::SpaceShip(Vector3 initPosition, float th):RoundThreshold(th)
+	if (!strFileName)
+		return;
+
+	ppic = ZXCLoadBMP(strFileName);
+
+	if (ppic == NULL)
+		exit(0);
+
+	// 生成纹理
+	glGenTextures(1, &textureArray[textureID]);
+
+	// 设置像素对齐格式
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+
+	glBindTexture(GL_TEXTURE_2D, textureArray[textureID]);
+
+	gluBuild2DMipmaps(GL_TEXTURE_2D, 3, ppic->iwidth, ppic->iheight, GL_RGB, GL_UNSIGNED_BYTE, ppic->pByte);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+
+	if (ppic)
+	{
+		free(ppic->pByte);
+	}
+}
+
+SpaceShip::SpaceShip(Vector3 initPosition)
 {
 	GLint iWidth, iHeight, iComponents;
 	GLenum eFormat;
 	GLbyte *pBytes;
 
+	/* Begin 3DS Model */
+	//CLoad3DS g_Load3ds;
+	//t3DModel g_3DModel;
+	//char model_name[] = "Models/90-intergalactic_spaceship-3ds/Intergalactic_Spaceship-(3DS).3ds";
+	//UINT g_Texture[100] = { 0 };
+
+	//g_Load3ds.Import3DS(&g_3DModel, model_name);
+	//for (int i = 0; i < g_3DModel.numOfMaterials; i++)
+	//{
+	//	// 判断是否是一个文件名
+	//	if (strlen(g_3DModel.pMaterials[i].strFile) > 0)
+	//	{
+	//		//  使用纹理文件名称来装入位图
+	//		CreateTexture(g_Texture, g_3DModel.pMaterials[i].strFile, i);
+	//	}
+
+	//	// 设置材质的纹理ID
+	//	g_3DModel.pMaterials[i].texureId = i;
+	//}
+	/* End 3DS Model */
+
+	/* Begin Regular Model */
 	glGenTextures(2, textures);
 
 	// Load the body texture
@@ -49,6 +104,7 @@ SpaceShip::SpaceShip(Vector3 initPosition, float th):RoundThreshold(th)
 	glNewList(glassList, GL_COMPILE);
 	DrawGlass();
 	glEndList();
+	/* End Regular Model */
 
 	// initialize transform
 	position = initPosition;
@@ -58,7 +114,7 @@ SpaceShip::SpaceShip(Vector3 initPosition, float th):RoundThreshold(th)
 	translationSpeed = zero;
 	rotationSpeed = zero;
 	translationAcc = { 0.0002, 0.0002, 0.0005 };
-	rotationAcc = { 0.0003, 0.0003, 0.0003 };
+	rotationAcc = { 0.0015, 0.0015, 0.0015 };
 	pose = zero;
 }
 
@@ -123,9 +179,9 @@ void SpaceShip::UpdateSpaceShip(const PlayerController & controller)
 	pose.x += SetZero(controller.Rotation.x - 1, -Sign(pose.x) / 4.0, controller.Rotation.x - 1);
 	pose.y += SetZero(controller.Rotation.y - 1, -Sign(pose.y) / 4.0, controller.Rotation.y - 1);
 	pose.z += SetZero(controller.Rotation.z - 1, -Sign(pose.z) / 4.0, controller.Rotation.z - 1);
-	pose.x = RoundZero(Clip(pose.x, -pose_limit.x, pose_limit.x), 0.3);
-	pose.y = RoundZero(Clip(pose.y, -pose_limit.y, pose_limit.y), 0.3);
-	pose.z = RoundZero(Clip(pose.z, -pose_limit.z, pose_limit.z), 0.3);
+	pose.x = Clip(pose.x, -pose_limit.x, pose_limit.x);
+	pose.y = Clip(pose.y, -pose_limit.y, pose_limit.y);
+	pose.z = Clip(pose.z, -pose_limit.z, pose_limit.z);
 
 	// update translate speed
 	translationSpeed = translationSpeed.EltWiseAdd(
@@ -147,12 +203,12 @@ void SpaceShip::UpdateSpaceShip(const PlayerController & controller)
 	}
 
 	// small value round to zero
-	rotationSpeed.x = RoundZero(rotationSpeed.x, RoundThreshold);
-	rotationSpeed.y = RoundZero(rotationSpeed.y, RoundThreshold);
-	rotationSpeed.z = RoundZero(rotationSpeed.z, RoundThreshold);
-	if (translationSpeed.Norm() < RoundThreshold) {
-		translationSpeed = zero;
-	}
+	//rotationSpeed.x = RoundZero(rotationSpeed.x, RoundThreshold);
+	//rotationSpeed.y = RoundZero(rotationSpeed.y, RoundThreshold);
+	//rotationSpeed.z = RoundZero(rotationSpeed.z, RoundThreshold);
+	//if (translationSpeed.Norm() < RoundThreshold) {
+	//	translationSpeed = zero;
+	//}
 
 	// update local system
 	float tmp = PI / 180;

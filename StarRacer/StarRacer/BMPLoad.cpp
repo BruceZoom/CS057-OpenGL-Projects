@@ -2,7 +2,7 @@
 #include "BMPLoad.h"
 #define _CRT_SECURE_NO_WARNINGS
 
-void showBmpHead(BITMAPFILEHEADER* pBmpHead)
+void showBmpHead(BITMAPFILEHEADER_BMP* pBmpHead)
 {
 	printf("位图文件头:\n");
 	printf("文件大小:%d\n",pBmpHead->bfSize);
@@ -13,7 +13,7 @@ void showBmpHead(BITMAPFILEHEADER* pBmpHead)
 }
 
 
-void showBmpInforHead(tagBITMAPINFOHEADER* pBmpInforHead)
+void showBmpInforHead(tagBITMAPINFOHEADER_BMP* pBmpInforHead)
 {
 	printf("位图信息头:\n");
 	printf("结构体的长度:%d\n",pBmpInforHead->biSize);
@@ -29,7 +29,7 @@ void showBmpInforHead(tagBITMAPINFOHEADER* pBmpInforHead)
 	printf("重要颜色数:%d\n",pBmpInforHead->biClrImportant);
 }
 
-void showRgbQuan(tagRGBQUAD* pRGB)
+void showRgbQuan(tagRGBQUAD_BMP* pRGB)
 { 
 	printf("(%-3d,%-3d,%-3d)   ",pRGB->rgbRed,pRGB->rgbGreen,pRGB->rgbBlue);
 }
@@ -37,8 +37,8 @@ void showRgbQuan(tagRGBQUAD* pRGB)
 BMPPic *ZXCLoadBMP(const char *szFileName)
 {
 	static BMPPic pic={0,0,NULL};
-	BITMAPFILEHEADER   bitHead;
-	BITMAPINFOHEADER bitInfoHead; 
+	BITMAPFILEHEADER_BMP   bitHead;
+	BITMAPINFOHEADER_BMP bitInfoHead; 
 	FILE* pfile;
 
 	//char strFile[50];
@@ -59,13 +59,13 @@ BMPPic *ZXCLoadBMP(const char *szFileName)
 		return NULL;
 	   }
 	   //fseek(pfile,2,SEEK_CUR);   // "BM"
-	   fread(&bitHead,sizeof(tagBITMAPFILEHEADER),1,pfile);
+	   fread(&bitHead,sizeof(tagBITMAPFILEHEADER_BMP),1,pfile);
   
 	   //showBmpHead(&bitHead);
 	   printf("\n\n");
 
 	   //读取位图信息头信息
-	   fread(&bitInfoHead,sizeof(BITMAPINFOHEADER),1,pfile);
+	   fread(&bitInfoHead,sizeof(BITMAPINFOHEADER_BMP),1,pfile);
 	   //showBmpInforHead(&bitInfoHead);
 	   printf("\n");
 	}
@@ -76,14 +76,14 @@ BMPPic *ZXCLoadBMP(const char *szFileName)
 	}
 
 
-	tagRGBQUAD *pRgb ;
+	tagRGBQUAD_BMP *pRgb ;
 
 	if(bitInfoHead.biBitCount < 24)//有调色板 *******************************************************
 	{ 
 	   //读取调色盘结信息
 	   long nPlantNum = long(pow(2,double(bitInfoHead.biBitCount)));    //   Mix color Plant Number;
-	   pRgb=(tagRGBQUAD *)malloc(nPlantNum*sizeof(tagRGBQUAD)); 
-	   memset(pRgb,0,nPlantNum*sizeof(tagRGBQUAD));
+	   pRgb=(tagRGBQUAD_BMP *)malloc(nPlantNum*sizeof(tagRGBQUAD_BMP)); 
+	   memset(pRgb,0,nPlantNum*sizeof(tagRGBQUAD_BMP));
 	   int num = fread(pRgb,4,nPlantNum,pfile);
   
 	   printf("Color Plate Number: %d\n",nPlantNum);

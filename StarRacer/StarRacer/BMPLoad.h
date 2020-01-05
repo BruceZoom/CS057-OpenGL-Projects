@@ -1,4 +1,6 @@
-#pragma once
+#ifndef BMPLOAD_H_INCLUDE
+#define BMPLOAD_H_INCLUDE
+
 //!!!!!!!#pragma pack(1) tells compiler to align with 1 byte
 #pragma pack(1)
 
@@ -21,17 +23,16 @@ typedef long LONG;
 //位图文件头信息结构定义,14字节
 //其中不包含文件类型信息（由于结构体的内存结构决定，要是加了的话将不能正确读取文件信息）
 
-typedef struct tagBITMAPFILEHEADER {
+typedef struct tagBITMAPFILEHEADER_BMP {
 	DWORD bfSize;           //文件大小
 	WORD   bfReserved1; 	//保留字，不考虑
 	WORD   bfReserved2; 	//保留字，同上
 	DWORD bfOffBits;        //实际位图数据的偏移字节数，即前三个部分长度之和
-} BITMAPFILEHEADER; 
+} BITMAPFILEHEADER_BMP; 
 
 
 //信息头BITMAPINFOHEADER，也是一个结构，其定义如下：
-
-typedef struct tagBITMAPINFOHEADER{
+typedef struct tagBITMAPINFOHEADER_BMP{
 	//public:
 	DWORD   biSize;         	//指定此结构体的长度，为40
 	LONG    biWidth;       		//位图宽
@@ -44,19 +45,19 @@ typedef struct tagBITMAPINFOHEADER{
 	LONG    biYPelsPerMeter;	//Y方向分辨率
 	DWORD   biClrUsed;      	//使用的颜色数，如果为0，则表示默认值(2^颜色位数)
 	DWORD   biClrImportant; 	//重要颜色数，如果为0，则表示所有颜色都是重要的
-} BITMAPINFOHEADER; 
+} BITMAPINFOHEADER_BMP; 
 
 
 //调色板Palette，当然，这里是对那些需要调色板的位图文件而言的。24位和32位是不需要调色板的。
 //（似乎是调色板结构体个数等于使用的颜色数。）
 
-typedef struct tagRGBQUAD { 
+typedef struct tagRGBQUAD_BMP { 
 	//public:
 	BYTE     rgbBlue; //该颜色的蓝色分量
 	BYTE     rgbGreen; //该颜色的绿色分量
 	BYTE     rgbRed; //该颜色的红色分量
 	BYTE     rgbReserved; //保留值
-} RGBQUAD;
+} RGBQUAD_BMP;
 
 typedef struct 
 {
@@ -65,9 +66,9 @@ typedef struct
 	BYTE    *pByte;		//图片数据指针
 }BMPPic;
 
-void showBmpHead(BITMAPFILEHEADER* pBmpHead);
-void showBmpInforHead(tagBITMAPINFOHEADER* pBmpInforHead);
-void showRgbQuan(tagRGBQUAD* pRGB);
+void showBmpHead(BITMAPFILEHEADER_BMP* pBmpHead);
+void showBmpInforHead(tagBITMAPINFOHEADER_BMP* pBmpInforHead);
+void showRgbQuan(tagRGBQUAD_BMP* pRGB);
 BMPPic *ZXCLoadBMP(const char *szFileName);
 
 typedef struct
@@ -87,3 +88,5 @@ typedef struct
 } TGAHEADER;
 
 GLbyte *gltLoadTGA(const char *szFileName, GLint *iWidth, GLint *iHeight, GLint *iComponents, GLenum *eFormat);
+
+#endif // BMPLOAD_H_INCLUDE

@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="3ds.h" />
     <ClInclude Include="BMPLoad.h" />
     <ClInclude Include="Galaxy.h" />
     <ClInclude Include="pch.h" />
@@ -160,6 +161,7 @@
     <ClInclude Include="zxcSkyBox.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="3ds.cpp" />
     <ClCompile Include="BMPLoad.cpp" />
     <ClCompile Include="Body.cpp" />
     <ClCompile Include="Drawer.cpp" />
