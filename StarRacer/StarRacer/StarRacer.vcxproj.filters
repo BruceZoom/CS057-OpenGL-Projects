@@ -13,12 +13,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="头文件\libs">
+      <UniqueIdentifier>{b6a7d1ba-96c6-4d69-a891-8cb2d8cf26e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\libs">
+      <UniqueIdentifier>{eca8cc58-efef-42ef-9903-459e178cd319}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="BMPLoad.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Galaxy.h">
@@ -33,10 +36,16 @@
     <ClInclude Include="SpaceShip.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="zxcSkyBox.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="3ds.h">
+      <Filter>头文件\libs</Filter>
+    </ClInclude>
+    <ClInclude Include="BMPLoad.h">
+      <Filter>头文件\libs</Filter>
+    </ClInclude>
+    <ClInclude Include="zxcSkyBox.h">
+      <Filter>头文件\libs</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionSystem.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -45,9 +54,6 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="StarRacer.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="BMPLoad.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Galaxy.cpp">
@@ -68,10 +74,16 @@
     <ClCompile Include="Glass.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="zxcSkyBox.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="3ds.cpp">
+      <Filter>源文件\libs</Filter>
+    </ClCompile>
+    <ClCompile Include="BMPLoad.cpp">
+      <Filter>源文件\libs</Filter>
+    </ClCompile>
+    <ClCompile Include="zxcSkyBox.cpp">
+      <Filter>源文件\libs</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionSystem.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

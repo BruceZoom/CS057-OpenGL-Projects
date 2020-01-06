@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "Galaxy.h"
+#include "SpaceShip.h"
+#include <typeinfo>
 
 #pragma region Galaxy
 
@@ -31,6 +33,8 @@ Galaxy::Galaxy(int num_star, string filename)
 	stars[0].revolveRadius = 5;
 	stars[0].revolveCenter = zero;
 	stars[0].revolveSpeed = 0.002;
+	stars[0].collider.SetCollider(zero, stars[0].transform.radius);
+	CollisionSystem::AddCollider(&stars[0].collider);
 	UpdateStar(0);
 
 	BindTexture(1, "Textures/earth.bmp");
@@ -40,6 +44,8 @@ Galaxy::Galaxy(int num_star, string filename)
 	stars[1].revolveDegree = 45;
 	stars[1].revolveCenter = zero;
 	stars[1].revolveSpeed = 0.003;
+	stars[0].collider.SetCollider(zero, stars[1].transform.radius);
+	CollisionSystem::AddCollider(&stars[1].collider);
 	UpdateStar(1);
 
 	BindTexture(2, "Textures/venus.bmp");
@@ -48,6 +54,8 @@ Galaxy::Galaxy(int num_star, string filename)
 	stars[2].revolveRadius = 1.5;
 	stars[2].revolveCenter = zero;
 	stars[2].revolveSpeed = 0.004;
+	stars[0].collider.SetCollider(zero, stars[2].transform.radius);
+	CollisionSystem::AddCollider(&stars[2].collider);
 	UpdateStar(2);
 }
 
@@ -126,6 +134,12 @@ void Galaxy::UpdateStar(int idx)
 		stars[idx].revolveCenter.z +
 		sin(stars[idx].revolveDegree) * stars[idx].revolveRadius,
 	};
+	SphereCollider* other = stars[idx].collider.Update(stars[idx].transform.position);
+	if (other != NULL) {
+		if (other->tag == Tag::TShip) {
+			printf("SpaceShip collide.\n");
+		}
+	}
 }
 
 #pragma endregion
@@ -140,3 +154,4 @@ void Galaxy::DrawGalaxy()
 }
 
 #pragma endregion
+

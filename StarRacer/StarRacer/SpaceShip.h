@@ -4,6 +4,7 @@
 #include "Utils.h"
 #include "PlayerController.h"
 #include "3ds.h"
+#include "CollisionSystem.h"
 
 #define BODY_TEXTURE    0
 #define GLASS_TEXTURE   1
@@ -37,6 +38,7 @@ class SpaceShip
 	GLuint textures[2];
 	GLuint bodyList;
 	GLuint glassList;
+	SphereCollider collider;
 	void DrawBody();
 	void DrawGlass();
 public:

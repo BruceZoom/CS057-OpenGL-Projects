@@ -5,6 +5,7 @@
 #include "BMPLoad.h"
 #include "SpaceShip.h"
 #include <string>
+#include "CollisionSystem.h"
 
 //  从文件中创建纹理
 void CreateTexture(UINT textureArray[], LPSTR strFileName, int textureID)
@@ -47,7 +48,8 @@ SpaceShip::SpaceShip(Vector3 initPosition)
 	/* Begin 3DS Model */
 	//CLoad3DS g_Load3ds;
 	//t3DModel g_3DModel;
-	//char model_name[] = "Models/90-intergalactic_spaceship-3ds/Intergalactic_Spaceship-(3DS).3ds";
+	//char model_name[] = "D:\\Bruce\\Courses\\OpenGL\\CS057-OpenGL-Projects\\StarRacer\\StarRacer\\Models\\90-intergalactic_spaceship-3ds\\Intergalactic_Spaceship-(3DS).3ds";
+	//	//"Models/90-intergalactic_spaceship-3ds/Intergalactic_Spaceship-(3DS).3ds";
 	//UINT g_Texture[100] = { 0 };
 
 	//g_Load3ds.Import3DS(&g_3DModel, model_name);
@@ -57,6 +59,7 @@ SpaceShip::SpaceShip(Vector3 initPosition)
 	//	if (strlen(g_3DModel.pMaterials[i].strFile) > 0)
 	//	{
 	//		//  使用纹理文件名称来装入位图
+	//		printf("%s\n", g_3DModel.pMaterials[i].strFile);
 	//		CreateTexture(g_Texture, g_3DModel.pMaterials[i].strFile, i);
 	//	}
 
@@ -116,6 +119,9 @@ SpaceShip::SpaceShip(Vector3 initPosition)
 	translationAcc = { 0.0002, 0.0002, 0.0005 };
 	rotationAcc = { 0.0015, 0.0015, 0.0015 };
 	pose = zero;
+
+	collider.SetCollider(position, 10, this, Tag::TShip);
+	CollisionSystem::AddCollider(&collider);
 }
 
 SpaceShip::~SpaceShip()
@@ -224,4 +230,5 @@ void SpaceShip::UpdateSpaceShip(const PlayerController & controller)
 	
 	// update global position
 	position = position.EltWiseAdd(translationSpeed);
+	collider.Update(position);
 }

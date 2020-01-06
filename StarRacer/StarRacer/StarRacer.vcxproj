@@ -153,6 +153,7 @@
   <ItemGroup>
     <ClInclude Include="3ds.h" />
     <ClInclude Include="BMPLoad.h" />
+    <ClInclude Include="CollisionSystem.h" />
     <ClInclude Include="Galaxy.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PlayerController.h" />
@@ -164,6 +165,7 @@
     <ClCompile Include="3ds.cpp" />
     <ClCompile Include="BMPLoad.cpp" />
     <ClCompile Include="Body.cpp" />
+    <ClCompile Include="CollisionSystem.cpp" />
     <ClCompile Include="Drawer.cpp" />
     <ClCompile Include="Galaxy.cpp" />
     <ClCompile Include="Glass.cpp" />

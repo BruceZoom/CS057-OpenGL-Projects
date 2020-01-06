@@ -52,17 +52,6 @@ typedef struct {
 	float radius = 0;
 } SphereTransform;
 
-typedef struct {
-	SphereTransform transform;
-	Vector3 rotateAxis = { 0, 1, 0 };
-	float rotateDegree = 0;
-	float rotateSpeed = 0;
-	Vector3 revolveCenter = {0, 0, 0};	// the revolve plane can only be the x-z plane
-	float revolveDegree = 0;
-	float revolveRadius = 0;
-	float revolveSpeed = 0;
-} Star;
-
 #pragma endregion
 
 
