@@ -110,22 +110,28 @@ SpaceShip::SpaceShip(Vector3 initPosition)
 	/* End Regular Model */
 
 	// initialize transform
-	position = initPosition;
-	forward = unitZ;
-	up = unitY;
-	right = unitX;
-	translationSpeed = zero;
-	rotationSpeed = zero;
+	Reset(initPosition);
 	translationAcc = { 0.0002, 0.0002, 0.0005 };
 	rotationAcc = { 0.0015, 0.0015, 0.0015 };
-	pose = zero;
 
-	collider.SetCollider(position, 10, this, Tag::TShip);
+	collider.SetCollider(position, 0.05f, this, Tag::TShip);
 	CollisionSystem::AddCollider(&collider);
 }
 
 SpaceShip::~SpaceShip()
 {
+}
+
+
+void SpaceShip::Reset(Vector3 position)
+{
+	this->position = position;
+	forward = unitZ;
+	up = unitY;
+	right = unitX;
+	translationSpeed = zero;
+	rotationSpeed = zero;
+	pose = zero;
 }
 
 void SpaceShip::DrawSpaceShip()
@@ -230,5 +236,15 @@ void SpaceShip::UpdateSpaceShip(const PlayerController & controller)
 	
 	// update global position
 	position = position.EltWiseAdd(translationSpeed);
-	collider.Update(position);
+	SphereCollider* other = collider.Update(position.EltWiseAdd(forward.SclMul(0.4f)).EltWiseAdd(up.SclMul(0.1f)));
+	if (other != NULL) {
+		if (other->tag == Tag::TStar) {
+			OnCollision();
+		}
+	}
+}
+
+void SpaceShip::OnCollision()
+{
+	Reset(zero);
 }

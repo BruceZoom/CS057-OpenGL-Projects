@@ -44,7 +44,7 @@ Galaxy::Galaxy(int num_star, string filename)
 	stars[1].revolveDegree = 45;
 	stars[1].revolveCenter = zero;
 	stars[1].revolveSpeed = 0.003;
-	stars[0].collider.SetCollider(zero, stars[1].transform.radius);
+	stars[1].collider.SetCollider(zero, stars[1].transform.radius);
 	CollisionSystem::AddCollider(&stars[1].collider);
 	UpdateStar(1);
 
@@ -54,7 +54,7 @@ Galaxy::Galaxy(int num_star, string filename)
 	stars[2].revolveRadius = 1.5;
 	stars[2].revolveCenter = zero;
 	stars[2].revolveSpeed = 0.004;
-	stars[0].collider.SetCollider(zero, stars[2].transform.radius);
+	stars[2].collider.SetCollider(zero, stars[2].transform.radius);
 	CollisionSystem::AddCollider(&stars[2].collider);
 	UpdateStar(2);
 }

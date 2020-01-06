@@ -41,9 +41,11 @@ class SpaceShip
 	SphereCollider collider;
 	void DrawBody();
 	void DrawGlass();
+	void Reset(Vector3 position);
 public:
 	SpaceShip(Vector3 initPosition);
 	~SpaceShip();
 	void DrawSpaceShip();
 	void UpdateSpaceShip(const PlayerController &controller);
+	void OnCollision();
 };
