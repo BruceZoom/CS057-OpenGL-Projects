@@ -4,7 +4,7 @@
 
 class SphereCollider;
 
-enum Tag { TShip, TStar };
+enum Tag { TShip, TStar, TTrack };
 
 class SphereCollider {
 private:

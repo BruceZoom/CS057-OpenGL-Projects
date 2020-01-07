@@ -6,6 +6,7 @@
 #include "SpaceShip.h"
 #include <string>
 #include "CollisionSystem.h"
+#include "Track.h"
 
 //  从文件中创建纹理
 void CreateTexture(UINT textureArray[], LPSTR strFileName, int textureID)
@@ -241,10 +242,15 @@ void SpaceShip::UpdateSpaceShip(const PlayerController & controller)
 		if (other->tag == Tag::TStar) {
 			OnCollision();
 		}
+		if (other->tag == Tag::TTrack) {
+			Track *track = (Track*)(other->parent);
+			savePoint = track->SavePoint();
+			track->Update();
+		}
 	}
 }
 
 void SpaceShip::OnCollision()
 {
-	Reset(zero);
+	Reset(savePoint);
 }

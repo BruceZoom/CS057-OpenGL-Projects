@@ -26,6 +26,7 @@ extern GLfloat texturesGlass[227][2];
 class SpaceShip
 {
 	Vector3 position;
+	Vector3 savePoint;
 	Vector3 forward;
 	Vector3 up;
 	Vector3 right;

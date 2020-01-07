@@ -3,19 +3,23 @@
 #include <iostream>
 
 #include "BMPLoad.h"
+#include "zxcSkyBox.h"
+
 #include "Utils.h"
 #include "Galaxy.h"
 #include "PlayerController.h"
 #include "SpaceShip.h"
-#include "zxcSkyBox.h"
+#include "Track.h"
 
 #define PI 3.1415
 
 BMPPic * ppic;
+CzxcSkyBox * skybox;
+
 Galaxy * galaxy;
 PlayerController * controller;
 SpaceShip * ship;
-CzxcSkyBox * skybox;
+Track * track;
 
 void init()
 {
@@ -58,6 +62,9 @@ void init()
 	// set up space ship
 	ship = new SpaceShip({ 0, 0, -10 });
 
+	// initiate track
+	track = new Track({ 0, 0, -8 }, 0.2, 0.1, 2);
+
 	// set up sky box
 	skybox = new CzxcSkyBox(50000,
 		"Textures/ame_nebula/purplenebula_lf.tga",
@@ -87,6 +94,7 @@ void Render() {
 	ship->DrawSpaceShip();
 
 	galaxy->DrawGalaxy();
+	track->DrawTrack();
 
 	skybox->ShowSky();
 

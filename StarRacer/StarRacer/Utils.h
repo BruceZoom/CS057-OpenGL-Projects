@@ -57,7 +57,7 @@ typedef struct {
 
 #pragma region Drawer
 
-void DrawSphere(float X, float Y, float Z, float Radius, int Slices = 30, int Stacks = 50);
+void DrawSphere(float X, float Y, float Z, float Radius, int Slices = 30, int Stacks = 50, int mode = 0);
 
 #pragma endregion
 

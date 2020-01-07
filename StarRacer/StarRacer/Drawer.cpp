@@ -41,7 +41,7 @@ void SpaceShip::DrawGlass()
 	glEnd();
 }
 
-void DrawSphere(float X, float Y, float Z, float Radius, int Slices, int Stacks)
+void DrawSphere(float X, float Y, float Z, float Radius, int Slices, int Stacks, int mode)
 {
 	float dAngle_H = 2.0f * PI / Slices;
 	float dAngle_V = 2.0f * PI / Stacks;
@@ -62,14 +62,24 @@ void DrawSphere(float X, float Y, float Z, float Radius, int Slices, int Stacks)
 			y = y2;
 			z = -sin(j * dAngle_H) * CircleRadius2;
 			glNormal3f(x, y, z);
-			glTexCoord2f((float)j / Slices, (float)(i + 1) / Stacks * 2);
+			if (mode == 0) {
+				glTexCoord2f((float)j / Slices, (float)(i + 1) / Stacks * 2);
+			}
+			if (mode == 1) {
+				glColor3f(0, 1, 1);
+			}
 			glVertex3f(X + x* Radius, Y + y* Radius, Z + z* Radius);
 
 			x = cos(j * dAngle_H) * CircleRadius1;
 			y = y1;
 			z = -sin(j * dAngle_H) * CircleRadius1;
 			glNormal3f(x, y, z);
-			glTexCoord2f((float)j / Slices, (float)i / Stacks * 2);
+			if (mode == 0) {
+				glTexCoord2f((float)j / Slices, (float)i / Stacks * 2);
+			}
+			if (mode == 1) {
+				glColor3f(0, 1, 1);
+			}
 			glVertex3f(X + x* Radius, Y + y* Radius, Z + z* Radius);
 		}
 		glEnd();
