@@ -113,7 +113,7 @@ SpaceShip::SpaceShip(Vector3 initPosition)
 
 	// initialize transform
 	Reset(initPosition);
-	translationAcc = { 0.0002, 0.0002, 0.0005 };
+	translationAcc = { 0.0002/2, 0.0002/2, 0.0005/2 };
 	rotationAcc = { 0.0015, 0.0015, 0.0015 };
 	savePoint = initPosition;
 	PlayerController::playerLocation = &position;
@@ -146,7 +146,7 @@ void SpaceShip::DrawSpaceShip()
 	//	up.x, up.y, up.z);
 	glPushMatrix();
 	{
-		glTranslatef(0, -0.01, -0.04);
+		glTranslatef(0, -0.01/2, -0.04/2);
 		glRotatef(180, 0, 1, 0);
 		glRotatef(pose.z, 0, 0, 1);
 		glRotatef(-pose.y, 0, 1, 0);
@@ -158,17 +158,17 @@ void SpaceShip::DrawSpaceShip()
 			//gluLookAt(0, 0, 0, 0, 0, 1, 0, 1, 0);
 			glRotatef(-90.0f, 1.0f, 0.0f, 0.0f);
 			glBindTexture(GL_TEXTURE_2D, textures[BODY_TEXTURE]);
-			glScalef(.0002, .0002, .0002);
+			glScalef(.0002/2, .0002/2, .0002/2);
 			glCallList(bodyList); //DrawBody();
 		}
 		glPopMatrix();
 
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glTranslatef(0.0f, 0.00132f, 0.00555f);
+		glTranslatef(0.0f, 0.00132f/2, 0.00555f/2);
 		glBindTexture(GL_TEXTURE_2D, textures[GLASS_TEXTURE]);
 
-		glScalef(0.0002, 0.0002, 0.0002);
+		glScalef(0.0002/2, 0.0002/2, 0.0002/2);
 		//    glFrontFace(GL_CW);
 		//    glCallList(glassList); //DrawGlass();
 		glFrontFace(GL_CCW);

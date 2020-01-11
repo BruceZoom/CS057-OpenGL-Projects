@@ -30,12 +30,14 @@ Galaxy::Galaxy(int num_star, string filename)
 	float radiusUnit = 0.1;
 	float revolveRadiusUnit = 5;
 	float rotateSpeedUnit = 1;
-	float revolveSpeedUnit = 0.0001;
+	float revolveSpeedUnit = 0.0001 * 19;
 
 	float radius[] = { 15, 2.2, 3.5, 3.5, 2.5, 12, 11, 7.1, 7 };
-	float rotateSpeed[] = { 1.0, 1.0 ,1.0 ,1.0 ,1.0 ,1.0 ,1.0 ,1.0 ,1.0 };
+	float rotateSpeed[] = { 1.0 / 30, 1.0 / 58, 1.0 / 243, 1.0 / 1, 1.0 / 1,
+		1.0 / 0.4, 1.0 / 0.4, 1.0 / 0.7, 1.0 / 0.65 };
 	float revolveRadius[] = { 0, 0.4, 0.7, 1.0, 1.5, 5.2, 9.5, 19.2, 30 };
-	float revolveSpeed[] = { 0.0, 1, 1, 1, 1, 1, 1, 1, 1 };
+	float revolveSpeed[] = { 0.0, 1.0 / 9.3, 1.0 / 15, 1.0 / 19, 1.0 / 26,
+		1.0 / 63, 1.0 / 100, 1.0 / 175, 1.0 / 224 };
 	char textures[][50] = {
 		"Textures/sun.bmp",
 		"Textures/mercury.bmp",

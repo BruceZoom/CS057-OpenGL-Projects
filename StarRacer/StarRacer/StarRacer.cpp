@@ -61,10 +61,10 @@ void init()
 	controller = new PlayerController();
 
 	// set up space ship
-	ship = new SpaceShip({ 0, 0, -10 });
+	ship = new SpaceShip({ 5, 0, -10 });
 
 	// initiate track
-	track = new Track({ 0, 0, -8 }, 0.2, 0.1, 2);
+	track = new Track({ 4.8, 0.2, -8 }, 0.2, 0.05, 2);
 
 	// set up sky box
 	skybox = new CzxcSkyBox(50000,

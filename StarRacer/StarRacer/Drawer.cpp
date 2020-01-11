@@ -67,7 +67,7 @@ void DrawSphere(float X, float Y, float Z, float Radius, int Slices, int Stacks,
 				glTexCoord2f((float)j / Slices, (float)(i + 1) / Stacks * 2);
 			}
 			if (mode == 1) {
-				glColor3f(0, 1, 1);
+				glColor3f(0, 0, 0);
 			}
 			glVertex3f(X + x* Radius, Y + y* Radius, Z + z* Radius);
 
@@ -79,7 +79,7 @@ void DrawSphere(float X, float Y, float Z, float Radius, int Slices, int Stacks,
 				glTexCoord2f((float)j / Slices, (float)i / Stacks * 2);
 			}
 			if (mode == 1) {
-				glColor3f(0, 1, 1);
+				glColor3f(0, 0, 0);
 			}
 			glVertex3f(X + x* Radius, Y + y* Radius, Z + z* Radius);
 		}
@@ -91,12 +91,12 @@ void GameController::DrawUI()
 {
 	const char *text = "Test GUI";
 
-	glDisable(GL_LIGHTING);
+	//glDisable(GL_LIGHTING);
 	//glColor4f(0.9, 0.9, 0.9, 1);
 	glColor3f(0.0, 0.0, 0.0);
 	glRasterPos3f(0, 0, -0.5);
 	for(const char *c = text; *c != '\0'; c++)
 		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, *c);
-	glEnable(GL_LIGHTING);
+	//glEnable(GL_LIGHTING);
 }
 
