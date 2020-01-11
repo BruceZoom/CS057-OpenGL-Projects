@@ -37,6 +37,7 @@ public:
 	void SetStar(int idx, Star star);
 	void DrawStar(int idx);
 	void UpdateStar(int idx);
+	void UpdateGalaxy();
 	void DrawGalaxy();
 };
 

@@ -27,36 +27,40 @@ Galaxy::Galaxy(int num_star, string filename)
 	this->textPic = new GLuint[num_star];
 	glGenTextures(num_star, textPic);
 
-	BindTexture(0, "Textures/mars.bmp");
-	stars[0].transform.radius = 1.02;
-	stars[0].rotateSpeed = 0.5;
-	stars[0].revolveRadius = 5;
-	stars[0].revolveCenter = zero;
-	stars[0].revolveSpeed = 0.002;
-	stars[0].collider.SetCollider(zero, stars[0].transform.radius);
-	CollisionSystem::AddCollider(&stars[0].collider);
-	UpdateStar(0);
+	float radiusUnit = 0.1;
+	float revolveRadiusUnit = 5;
+	float rotateSpeedUnit = 1;
+	float revolveSpeedUnit = 0.0001;
 
-	BindTexture(1, "Textures/earth.bmp");
-	stars[1].transform.radius = 1;
-	stars[1].rotateSpeed = 0.6;
-	stars[1].revolveRadius = 3;
-	stars[1].revolveDegree = 45;
-	stars[1].revolveCenter = zero;
-	stars[1].revolveSpeed = 0.003;
-	stars[1].collider.SetCollider(zero, stars[1].transform.radius);
-	CollisionSystem::AddCollider(&stars[1].collider);
-	UpdateStar(1);
+	float radius[] = { 15, 2.2, 3.5, 3.5, 2.5, 12, 11, 7.1, 7 };
+	float rotateSpeed[] = { 1.0, 1.0 ,1.0 ,1.0 ,1.0 ,1.0 ,1.0 ,1.0 ,1.0 };
+	float revolveRadius[] = { 0, 0.4, 0.7, 1.0, 1.5, 5.2, 9.5, 19.2, 30 };
+	float revolveSpeed[] = { 0.0, 1, 1, 1, 1, 1, 1, 1, 1 };
+	char textures[][50] = {
+		"Textures/sun.bmp",
+		"Textures/mercury.bmp",
+		"Textures/venus.bmp",
+		"Textures/earth.bmp",
+		"Textures/mars.bmp",
+		"Textures/jupyter.bmp",
+		"Textures/saturn.bmp",
+		"Textures/uranus.bmp",
+		"Textures/neptune.bmp",
+	};
 
-	BindTexture(2, "Textures/venus.bmp");
-	stars[2].transform.radius = 0.3;
-	stars[2].rotateSpeed = 0.7;
-	stars[2].revolveRadius = 1.5;
-	stars[2].revolveCenter = zero;
-	stars[2].revolveSpeed = 0.004;
-	stars[2].collider.SetCollider(zero, stars[2].transform.radius);
-	CollisionSystem::AddCollider(&stars[2].collider);
-	UpdateStar(2);
+	for (int idx = 0; idx < num_star; idx++) {
+		cout << idx << endl;
+		BindTexture(idx, textures[idx]);
+		stars[idx].transform.radius = radius[idx] * radiusUnit;
+		stars[idx].rotateSpeed = rotateSpeed[idx] * rotateSpeedUnit;
+		stars[idx].revolveRadius = revolveRadius[idx] * revolveRadiusUnit;
+		stars[idx].revolveCenter = zero;
+		stars[idx].revolveSpeed = revolveSpeed[idx] * revolveSpeedUnit;
+		stars[idx].collider.SetCollider(zero, stars[idx].transform.radius);
+		stars[idx].revolveDegree = rand() % 360;
+		CollisionSystem::AddCollider(&stars[idx].collider);
+		UpdateStar(idx);
+	}
 }
 
 Galaxy::Galaxy(int num_star, string textures[])
@@ -120,7 +124,22 @@ void Galaxy::DrawStar(int idx)
 			  stars[idx].rotateAxis.x,
 			  stars[idx].rotateAxis.y,
 			  stars[idx].rotateAxis.z);
-	DrawSphere(0, 0, 0, stars[idx].transform.radius);
+	// manually decide resolution
+	if (stars[idx].transform.radius /
+		PlayerController::playerLocation->EltWiseAdd(
+			stars[idx].transform.position.SclMul(-1)).Norm() > 0.5) {
+		DrawSphere(0, 0, 0, stars[idx].transform.radius, 40, 60);
+	}
+	else if (stars[idx].transform.radius /
+		PlayerController::playerLocation->EltWiseAdd(
+			stars[idx].transform.position.SclMul(-1)).Norm() > 0.03) {
+	DrawSphere(0, 0, 0, stars[idx].transform.radius, 25, 45);
+	}
+	else if (stars[idx].transform.radius /
+		PlayerController::playerLocation->EltWiseAdd(
+			stars[idx].transform.position.SclMul(-1)).Norm() > 0.005) {
+		DrawSphere(0, 0, 0, stars[idx].transform.radius, 10, 20);
+	}
 }
 
 void Galaxy::UpdateStar(int idx)
@@ -139,6 +158,13 @@ void Galaxy::UpdateStar(int idx)
 		if (other->tag == Tag::TShip) {
 			printf("SpaceShip collide.\n");
 		}
+	}
+}
+
+void Galaxy::UpdateGalaxy()
+{
+	for (int i = 0; i < num_star; i++) {
+		UpdateStar(i);
 	}
 }
 

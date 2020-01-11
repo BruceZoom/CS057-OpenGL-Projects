@@ -55,7 +55,7 @@ void init()
 	glEnable(0x803A);
 
 	// set up galaxy
-	galaxy = new Galaxy(3, "");
+	galaxy = new Galaxy(9, "");
 
 	// set up controller
 	controller = new PlayerController();
@@ -126,9 +126,10 @@ void TimerFunction(int value)
 
 	GameController::UpdateTime(5.0 / 1000);
 
-	galaxy->UpdateStar(0);
-	galaxy->UpdateStar(1);
-	galaxy->UpdateStar(2);
+	//galaxy->UpdateStar(0);
+	//galaxy->UpdateStar(1);
+	//galaxy->UpdateStar(2);
+	galaxy->UpdateGalaxy();
 
 	ship->UpdateSpaceShip(*controller);
 

@@ -93,7 +93,7 @@ void GameController::DrawUI()
 
 	glDisable(GL_LIGHTING);
 	//glColor4f(0.9, 0.9, 0.9, 1);
-	glColor3f(0.0, 0.0, 1.0);
+	glColor3f(0.0, 0.0, 0.0);
 	glRasterPos3f(0, 0, -0.5);
 	for(const char *c = text; *c != '\0'; c++)
 		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, *c);
