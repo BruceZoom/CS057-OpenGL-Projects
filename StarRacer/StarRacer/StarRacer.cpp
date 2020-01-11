@@ -10,6 +10,7 @@
 #include "PlayerController.h"
 #include "SpaceShip.h"
 #include "Track.h"
+#include "GameController.h"
 
 #define PI 3.1415
 
@@ -39,7 +40,7 @@ void init()
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
 	glEnable(GL_COLOR_MATERIAL);
-	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 	glMaterialfv(GL_FRONT, GL_SPECULAR, fDiffLight);
 	glMateriali(GL_FRONT, GL_SHININESS, 128);
 
@@ -83,11 +84,13 @@ void init()
 
 void Render() {
 	static float degree = 0;
-
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glLoadIdentity();
 	glPushMatrix();
+
+	GameController::DrawUI();
+
 	//glRotatef(degree, 0, 1, 0);
 	//degree += 0.05;
 	//glTranslatef(0, 0, -10);
@@ -121,6 +124,8 @@ void TimerFunction(int value)
 {
 	glutPostRedisplay();
 
+	GameController::UpdateTime(5.0 / 1000);
+
 	galaxy->UpdateStar(0);
 	galaxy->UpdateStar(1);
 	galaxy->UpdateStar(2);
@@ -128,7 +133,7 @@ void TimerFunction(int value)
 	ship->UpdateSpaceShip(*controller);
 
 	//controller->Reset();
-	
+
 	glutTimerFunc(5, TimerFunction, 1);
 }
 
@@ -176,6 +181,7 @@ int main()
 	delete galaxy;
 	delete controller;
 	delete ship;
+	delete track;
 
 	return 0;
 }
