@@ -8,6 +8,7 @@
 #include "CollisionSystem.h"
 #include "Track.h"
 #include "GameController.h"
+#include "Galaxy.h"
 
 //  从文件中创建纹理
 void CreateTexture(UINT textureArray[], LPSTR strFileName, int textureID)
@@ -116,7 +117,7 @@ SpaceShip::SpaceShip(Vector3 initPosition)
 	translationAcc = { 0.0002/2, 0.0002/2, 0.0005/2 };
 	rotationAcc = { 0.0015, 0.0015, 0.0015 };
 	savePoint = initPosition;
-	PlayerController::playerLocation = &position;
+	PlayerController::PlayerLocation = &position;
 
 	collider.SetCollider(position, 0.05f, this, Tag::TShip);
 	CollisionSystem::AddCollider(&collider);
@@ -239,7 +240,14 @@ void SpaceShip::UpdateSpaceShip(const PlayerController & controller)
 	right = _right;
 	
 	// update global position
+	Vector3 tmpPos = position;
+	// warp
 	position = position.EltWiseAdd(translationSpeed);
+	if (position.Norm() > Galaxy::BoudningSphereRadius) {
+		position = tmpPos.SclMul(-1).EltWiseAdd(translationSpeed);
+	}
+
+	// check collsion
 	SphereCollider* other = collider.Update(position.EltWiseAdd(forward.SclMul(0.4f)).EltWiseAdd(up.SclMul(0.1f)));
 	if (other != NULL) {
 		if (other->tag == Tag::TStar) {

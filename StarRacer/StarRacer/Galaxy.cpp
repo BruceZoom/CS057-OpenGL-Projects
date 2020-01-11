@@ -5,6 +5,8 @@
 
 #pragma region Galaxy
 
+float Galaxy::BoudningSphereRadius;
+
 void Galaxy::BindTexture(int idx, string textureFile)
 {
 	BMPPic * ppic;
@@ -63,6 +65,7 @@ Galaxy::Galaxy(int num_star, string filename)
 		CollisionSystem::AddCollider(&stars[idx].collider);
 		UpdateStar(idx);
 	}
+	BoudningSphereRadius = 50 * revolveRadiusUnit;
 }
 
 Galaxy::Galaxy(int num_star, string textures[])
@@ -128,18 +131,18 @@ void Galaxy::DrawStar(int idx)
 			  stars[idx].rotateAxis.z);
 	// manually decide resolution
 	if (stars[idx].transform.radius /
-		PlayerController::playerLocation->EltWiseAdd(
-			stars[idx].transform.position.SclMul(-1)).Norm() > 0.5) {
+		PlayerController::PlayerLocation->EltWiseAdd(
+			stars[idx].transform.position.SclMul(-1)).Norm() > 0.3) {
 		DrawSphere(0, 0, 0, stars[idx].transform.radius, 40, 60);
 	}
 	else if (stars[idx].transform.radius /
-		PlayerController::playerLocation->EltWiseAdd(
-			stars[idx].transform.position.SclMul(-1)).Norm() > 0.03) {
-	DrawSphere(0, 0, 0, stars[idx].transform.radius, 25, 45);
+		PlayerController::PlayerLocation->EltWiseAdd(
+			stars[idx].transform.position.SclMul(-1)).Norm() > 0.02) {
+	DrawSphere(0, 0, 0, stars[idx].transform.radius, 30, 45);
 	}
 	else if (stars[idx].transform.radius /
-		PlayerController::playerLocation->EltWiseAdd(
-			stars[idx].transform.position.SclMul(-1)).Norm() > 0.005) {
+		PlayerController::PlayerLocation->EltWiseAdd(
+			stars[idx].transform.position.SclMul(-1)).Norm() > 0.001) {
 		DrawSphere(0, 0, 0, stars[idx].transform.radius, 10, 20);
 	}
 }

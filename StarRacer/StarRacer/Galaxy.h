@@ -28,6 +28,7 @@ class Galaxy
 	Star * stars;
 	void BindTexture(int idx, string textureFile);
 public:
+	static float BoudningSphereRadius;
 	Galaxy(int num_star, string filename);
 	Galaxy(int num_star, string textures[]);
 	Galaxy(int num_star, string textures[], Star stars[]);

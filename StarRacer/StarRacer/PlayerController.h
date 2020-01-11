@@ -10,7 +10,7 @@ enum TernaryState { TNegtive, TNutrual, TPositive };
 class PlayerController
 {
 public:
-	static Vector3* playerLocation;
+	static Vector3* PlayerLocation;
 	Vector3 Rotation;
 	TernaryState Forward;
 	TernaryState Horizontal;

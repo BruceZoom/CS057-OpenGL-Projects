@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include "PlayerController.h"
 
-Vector3* PlayerController::playerLocation;
+Vector3* PlayerController::PlayerLocation;
 
 PlayerController::PlayerController()
 {

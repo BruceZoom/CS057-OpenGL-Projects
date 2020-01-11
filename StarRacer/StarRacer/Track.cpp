@@ -1,6 +1,7 @@
 #include "Track.h"
 #include "glut.h"
 #include <cmath>
+#include "Galaxy.h"
 
 Track::Track(Vector3 initPosition, float radius, float randomRadius, float distance)
 {
@@ -20,9 +21,15 @@ Track::~Track()
 
 void Track::Update()
 {
+	SphereCollider *other;
 	Vector3 candidate = currentPosition.EltWiseAdd(
 		currentPosition.EltWiseAdd(lastPosition.SclMul(-1)).Normalize().SclMul(distance));
-	SphereCollider *other;
+	// wrap
+	if(candidate.Norm() > Galaxy::BoudningSphereRadius) {
+		candidate = currentPosition.SclMul(-1).EltWiseAdd(
+			currentPosition.EltWiseAdd(lastPosition.SclMul(-1)).Normalize().SclMul(distance));
+	}
+	// check collision
 	do
 	{
 		candidate = candidate.EltWiseAdd({ (float)rand() / RAND_MAX * randomRadius,
